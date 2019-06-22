@@ -16,7 +16,7 @@
 #define MYSTEM_GRAM_CONST(NAME, VALUE) REGISTER_NS_LONG_CONSTANT(MYSTEM_NS "\\" "GramInfo",     NAME, VALUE, CONST_CS | CONST_PERSISTENT);
 #define MYSTEM_QUAL_CONST(NAME, VALUE) REGISTER_NS_LONG_CONSTANT(MYSTEM_NS "\\" "QualityFlags", NAME, VALUE, CONST_CS | CONST_PERSISTENT);
 
-inline TSymbol* UnicodeToSymbols(const UnicodeString & str)
+inline TSymbol* UnicodeToSymbols(const icu::UnicodeString & str)
 {
     TSymbol* symbols;
     symbols = (TSymbol *)safe_emalloc(str.length(), sizeof(TSymbol), 0);
@@ -29,7 +29,7 @@ inline TSymbol* UnicodeToSymbols(const UnicodeString & str)
 inline zval* SymbolsToZval(const TSymbol* symbols, int len)
 {
     std::string str;
-    UnicodeString(symbols, len).toUTF8String(str);
+    icu::UnicodeString(symbols, len).toUTF8String(str);
     zend_string *zstr = zend_string_init((char *)str.c_str(), str.length(), 0);
     zval *res = (zval *)safe_emalloc(1, sizeof(zval), 0);
     ZVAL_STR(res, zstr);
@@ -198,7 +198,7 @@ inline zval* FlexGramInfoToZval(char** info, int num, int asString)
 
 MystemAnalysesHandle* MystemAnalyzeUTF8(const char* str, int len)
 {
-    UnicodeString ucs_word = UnicodeString::fromUTF8(StringPiece(str, len));
+    icu::UnicodeString ucs_word = icu::UnicodeString::fromUTF8(icu::StringPiece(str, len));
     TSymbol *tsym_word = UnicodeToSymbols(ucs_word);
     MystemAnalysesHandle* res = MystemAnalyze(tsym_word, ucs_word.length());
     efree(tsym_word);
