@@ -2,6 +2,7 @@
 
 
 Интерфейс к библиотеке Yandex.Mystem.
+
 Сборка и установка:
 
   wget https://github.com/yandex/tomita-parser/releases/download/v1.0/libmystem_c_binding.so.linux_x64.zip
@@ -14,6 +15,8 @@
   
   sudo apt-get -y install libicu-dev
   
+  cd php-mystem
+  
   phpize
   
   ./configure
@@ -21,6 +24,8 @@
   make
   
   sudo make install
+
+
 
 Добавить в php.ini:
 
